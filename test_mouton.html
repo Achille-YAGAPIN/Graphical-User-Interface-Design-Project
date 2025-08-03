@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Projet Conception Site Web - 1A Info</title>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+	<link rel="stylesheet" href="tools/normalize.css"/>
+	<style type="text/css">
+     * { text-align: center; }
+     #canvanim { width: 512px; height: 256px; border-width: 2px; border-style: solid; margin-left: auto; margin-right: auto;}
+     #stop_clic:hover { font-variant: small-caps; cursor: pointer; }
+   </style>
+   <script type="text/javascript" src="tools/sprites.js"></script>
+</head>
+<body>
+   <div class="canva">
+		<canvas id="canvanim" width="40" height="40"> 
+			Ne supporte pas canvas.
+		</canvas>
+	</div>
+	<div id="stop_clic" onclick="start()">Start/Stop</div>
+</body>
+<script type="text/javascript">
+    // Contexte graphique
+	var cv = document.getElementById("canvanim");
+	var ctx = cv.getContext("2d");
+	var imgURL = "images/sheeppoe.png"
+	var x = 0;
+	var y = 280;
+	var image = canvasImage(imgURL,x,y,ctx);
+	drawCanvasImage(image,x,y);
+    
+    // Animation basique
+	var widthTile = 40;
+	var heightTile = 40;
+
+	var nbXTiles = 16;
+	var nbYTiles = 8;
+	var tps = 100;
+	var canvas = new CanvasSprite(image, x, y, widthTile, heightTile, nbXTiles, nbYTiles,ctx);
+	canvas.addAnimation("Rouler",[112,113,114,115,116,117,118,119]);
+    canvas.addAnimation("Courir",[0,1,2,3,4,5,6,7,8]);
+    canvas.addAnimation("Bailler",[32,37,38,39,38,37,32]);
+	canvas.selectAnimation("Rouler",true);
+	var letsgo = canvas.timeID;
+
+    // Bouton start/stop
+    function start(){
+		if(letsgo == 0){
+			canvas.simpleAnim(tps);
+			letsgo = letsgo + 1
+		} else {
+			canvas.stopAnim();
+			letsgo = 0
+		}
+	}
+
+</script>
+</html>

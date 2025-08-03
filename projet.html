@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Projet Conception Site Web - 1A Info</title>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+	<link rel="stylesheet" href="tools/normalize.css"/>
+	<style type="text/css">
+     * { text-align: center; }
+     #canvanim { width: 512px; height: 256px; border-width: 2px; border-style: solid; margin-left: auto; margin-right: auto;}
+     #stop_clic:hover { font-variant: small-caps; cursor: pointer; }
+   </style>
+   <script type="text/javascript" src="tools/sprites.js"></script>
+</head>
+<body>
+   <div class="canva">
+		<canvas id="canvanim" width="512" height="256"> 
+			Ne supporte pas canvas.
+		</canvas>
+	</div>
+	<div id="stop_clic" onclick="start()">Start/Stop</div>
+</body>
+<script type="text/javascript">
+
+
+	// Contexte graphique
+	var cv = document.getElementById("canvanim");
+	var ctx = cv.getContext("2d");
+	var imgURL = "images/chat.png"
+	var x = 0;
+	var y = 0;
+	var image = canvasImage(imgURL,x,y,ctx);
+	image.addEventListener('load',imageLoaded,false);
+    function imageLoaded(evt) { ctx.drawImage(image,0,0); }
+
+
+	// Animation basique
+	var widthTile = 512;		// On détermine ces valeurs manuellement
+	var heightTile = 256;
+	var nbXTiles = 2;
+	var nbYTiles = 4;
+	var tps = 100;
+
+	var canvas = new CanvasSprite(image, x, y, widthTile, heightTile, nbXTiles, nbYTiles,ctx);
+	canvas.addAnimation("Run",[0,1,2,3,4,5,6,7]);
+	canvas.selectAnimation("Run",true);
+
+	var letsgo = canvas.timeID;				// Variable qui vaut 1 si on est sur start et 0 sinon
+
+
+	//Bounton start/stop
+	function start(){
+		if(letsgo == 0){
+			canvas.simpleAnim(tps);
+			letsgo = letsgo + 1
+		} else {
+			canvas.stopAnim();
+			letsgo = 0
+		}
+	}
+
+	
+</script>
+
+</html>
